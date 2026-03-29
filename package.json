@@ -1,0 +1,246 @@
+{
+  "name": "bun-cli-starter",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Minimal starter kit for building CLI applications with Bun and TypeScript.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "bin": {
+    "bun-cli-starter": "dist/index.js"
+  },
+  "files": [
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "package.json",
+    "dist/index.js",
+    "dist/**/*.d.ts"
+  ],
+  "scripts": {
+    "start": "wireit",
+    "ci": "wireit",
+    "ci:nocache": "bun run clean && bun run ci",
+    "clean": "rm -rf dist",
+    "test": "wireit",
+    "test:coverage": "wireit",
+    "lint": "wireit",
+    "build": "wireit",
+    "format": "wireit",
+    "format:fix": "wireit",
+    "install:local": "wireit",
+    "uninstall:local": "wireit"
+  },
+  "wireit": {
+    "start": {
+      "command": "bun src/index.ts",
+      "cache": false
+    },
+    "ci": {
+      "dependencies": [
+        "lint",
+        "build",
+        "test:coverage"
+      ]
+    },
+    "test": {
+      "command": "bun test --coverage",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json",
+        "bunfig.toml"
+      ],
+      "output": []
+    },
+    "test:coverage": {
+      "command": "bun test --coverage",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json",
+        "bunfig.toml"
+      ],
+      "output": []
+    },
+    "lint": {
+      "command": "eslint .",
+      "files": [
+        "src/**/*.ts",
+        "eslint.config.js",
+        "package.json"
+      ],
+      "output": []
+    },
+    "build": {
+      "dependencies": [
+        "build:js",
+        "build:tsc",
+        "build:darwin-arm64",
+        "build:darwin-x64",
+        "build:linux-x64",
+        "build:linux-arm64",
+        "build:windows-x64"
+      ]
+    },
+    "build:js": {
+      "command": "bun build ./src/index.ts --outdir=./dist --target=bun --format=esm --minify",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/index.js"
+      ]
+    },
+    "build:tsc": {
+      "command": "tsc --emitDeclarationOnly --project tsconfig.types.json",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json",
+        "tsconfig.types.json"
+      ],
+      "output": [
+        "dist/index.d.ts"
+      ]
+    },
+    "build:darwin-arm64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-arm64 --outfile dist/bun-cli-starter-macos-arm64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/bun-cli-starter-macos-arm64"
+      ]
+    },
+    "build:darwin-x64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-x64 --outfile dist/bun-cli-starter-macos-x64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/bun-cli-starter-macos-x64"
+      ]
+    },
+    "build:linux-x64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-linux-x64 --outfile dist/bun-cli-starter-linux-x64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/bun-cli-starter-linux-x64"
+      ]
+    },
+    "build:linux-arm64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-linux-arm64 --outfile dist/bun-cli-starter-linux-arm64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/bun-cli-starter-linux-arm64"
+      ]
+    },
+    "build:windows-x64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-windows-x64 --outfile dist/bun-cli-starter-windows-x64.exe",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/bun-cli-starter-windows-x64.exe"
+      ]
+    },
+    "format": {
+      "command": "prettier --config=prettier.config.js --check --cache .",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "**/*.md",
+        "!**/.wireit/**",
+        "!**/dist/**"
+      ],
+      "output": [
+        "node_modules/.cache/prettier/**"
+      ]
+    },
+    "format:fix": {
+      "command": "prettier --config=prettier.config.js --write ."
+    },
+    "install:local": {
+      "dependencies": [
+        "build"
+      ],
+      "command": "bash install.sh",
+      "cache": false
+    },
+    "uninstall:local": {
+      "command": "rm -f \"$HOME/.local/bin/bun-cli-starter\"",
+      "cache": false
+    },
+    "release": {
+      "command": "HUSKY=0 bun x semantic-release",
+      "dependencies": [
+        "ci"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coryrylan/bun-cli-starter.git"
+  },
+  "keywords": [
+    "mcp",
+    "cli"
+  ],
+  "author": "Cory Rylan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coryrylan/bun-cli-starter/issues"
+  },
+  "homepage": "https://github.com/coryrylan/bun-cli-starter#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.28.0",
+    "marked": "17.0.5",
+    "marked-terminal": "7.3.0",
+    "yargs": "18.0.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "20.5.0",
+    "@commitlint/config-conventional": "20.5.0",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/commit-analyzer": "13.0.1",
+    "@semantic-release/exec": "7.1.0",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "12.0.6",
+    "@semantic-release/release-notes-generator": "14.1.0",
+    "@types/bun": "1.3.11",
+    "@eslint/js": "10.0.1",
+    "@types/marked-terminal": "6.1.1",
+    "@types/yargs": "17.0.35",
+    "@typescript-eslint/eslint-plugin": "8.57.0",
+    "@typescript-eslint/parser": "8.57.0",
+    "conventional-changelog-conventionalcommits": "9.3.0",
+    "husky": "9.1.7",
+    "semantic-release": "25.0.3",
+    "wireit": "0.14.12",
+    "eslint": "10.0.3",
+    "prettier": "3.8.1",
+    "typescript": "6.0.2",
+    "typescript-eslint": "8.57.0"
+  }
+}
