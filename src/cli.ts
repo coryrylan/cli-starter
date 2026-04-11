@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import yargs from 'yargs';
 
+import { capitalize } from './capitalize.js';
+
 const pkg = JSON.parse(readFileSync(resolve(import.meta.dirname, '..', 'package.json'), 'utf-8'));
 const cli = yargs(process.argv.slice(2)).scriptName('ncs').version(pkg.version).usage('$0 <cmd> [args]');
 
@@ -34,7 +36,7 @@ cli
     },
     argv => {
       const greeting = argv.message ?? 'world';
-      const capitalized = argv.capitalize ? greeting.toUpperCase() : greeting;
+      const capitalized = capitalize(greeting, Boolean(argv.capitalize));
       console.log(`hello, ${capitalized}!`);
     }
   )

@@ -48,6 +48,7 @@ bun run build        # Full build: ESM bundle + type declarations + all platform
 ```
 
 Build outputs in `dist/`:
+
 - `index.js` — ESM bundle
 - `index.d.ts` — TypeScript declarations
 - `bun-cli-starter-macos-arm64`, `bun-cli-starter-macos-x64` — macOS binaries
@@ -68,6 +69,7 @@ bun run uninstall:local  # Remove locally installed binary
 ## Commit Conventions
 
 Commits must follow [Conventional Commits](https://www.conventionalcommits.org/) enforced by commitlint:
+
 - **Types**: `chore`, `feat`, `fix`
 - **Scopes**: `ci`, `cli`
 - Subject must be lower-case, no period, max 100 chars

@@ -20,17 +20,17 @@ bun start
 
 ## Commands
 
-| Command | Description |
-| --- | --- |
-| `bun start` | Run the CLI via Bun |
-| `bun run build` | Build ESM bundle, type declarations, and platform binaries |
-| `bun run test` | Run tests with coverage |
-| `bun run lint` | Lint with ESLint |
-| `bun run format` | Check formatting with Prettier |
-| `bun run format:fix` | Auto-fix formatting |
-| `bun run ci` | Run lint + build + test (used in CI) |
-| `bun run install:local` | Build and install binary to `~/.local/bin` |
-| `bun run uninstall:local` | Remove locally installed binary |
+| Command                   | Description                                                |
+| ------------------------- | ---------------------------------------------------------- |
+| `bun start`               | Run the CLI via Bun                                        |
+| `bun run build`           | Build ESM bundle, type declarations, and platform binaries |
+| `bun run test`            | Run tests with coverage                                    |
+| `bun run lint`            | Lint with ESLint                                           |
+| `bun run format`          | Check formatting with Prettier                             |
+| `bun run format:fix`      | Auto-fix formatting                                        |
+| `bun run ci`              | Run lint + build + test (used in CI)                       |
+| `bun run install:local`   | Build and install binary to `~/.local/bin`                 |
+| `bun run uninstall:local` | Remove locally installed binary                            |
 
 ## CLI Usage
 
