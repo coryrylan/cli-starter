@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "bun-cli-starter",
+      "name": "cli-starter",
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.29.0",
         "marked": "18.0.0",

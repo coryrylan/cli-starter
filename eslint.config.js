@@ -9,7 +9,14 @@ export default defineConfig([
   {
     files: ['**/*.ts'],
     rules: {
+      complexity: ['error', { max: 10 }],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
+    }
+  },
+  {
+    files: ['src/cli.ts'],
+    rules: {
+      'no-irregular-whitespace': 'off'
     }
   }
 ]);

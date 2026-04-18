@@ -1,5 +1,5 @@
 {
-  "name": "bun-cli-starter",
+  "name": "cli-starter",
   "private": true,
   "version": "0.0.0",
   "description": "Minimal starter kit for building CLI applications with Bun and TypeScript.",
@@ -10,7 +10,7 @@
     ".": "./dist/index.js"
   },
   "bin": {
-    "bun-cli-starter": "dist/index.js"
+    "ncs": "dist/index.js"
   },
   "files": [
     "README.md",
@@ -112,58 +112,58 @@
       ]
     },
     "build:darwin-arm64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-arm64 --outfile dist/bun-cli-starter-macos-arm64",
+      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-arm64 --outfile dist/ncs-macos-arm64",
       "files": [
         "src/**/*.ts",
         "src/**/*.json",
         "tsconfig.json"
       ],
       "output": [
-        "dist/bun-cli-starter-macos-arm64"
+        "dist/ncs-macos-arm64"
       ]
     },
     "build:darwin-x64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-x64 --outfile dist/bun-cli-starter-macos-x64",
+      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-x64 --outfile dist/ncs-macos-x64",
       "files": [
         "src/**/*.ts",
         "src/**/*.json",
         "tsconfig.json"
       ],
       "output": [
-        "dist/bun-cli-starter-macos-x64"
+        "dist/ncs-macos-x64"
       ]
     },
     "build:linux-x64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-linux-x64 --outfile dist/bun-cli-starter-linux-x64",
+      "command": "bun build --compile --minify src/index.ts --target=bun-linux-x64 --outfile dist/ncs-linux-x64",
       "files": [
         "src/**/*.ts",
         "src/**/*.json",
         "tsconfig.json"
       ],
       "output": [
-        "dist/bun-cli-starter-linux-x64"
+        "dist/ncs-linux-x64"
       ]
     },
     "build:linux-arm64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-linux-arm64 --outfile dist/bun-cli-starter-linux-arm64",
+      "command": "bun build --compile --minify src/index.ts --target=bun-linux-arm64 --outfile dist/ncs-linux-arm64",
       "files": [
         "src/**/*.ts",
         "src/**/*.json",
         "tsconfig.json"
       ],
       "output": [
-        "dist/bun-cli-starter-linux-arm64"
+        "dist/ncs-linux-arm64"
       ]
     },
     "build:windows-x64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-windows-x64 --outfile dist/bun-cli-starter-windows-x64.exe",
+      "command": "bun build --compile --minify src/index.ts --target=bun-windows-x64 --outfile dist/ncs-windows-x64.exe",
       "files": [
         "src/**/*.ts",
         "src/**/*.json",
         "tsconfig.json"
       ],
       "output": [
-        "dist/bun-cli-starter-windows-x64.exe"
+        "dist/ncs-windows-x64.exe"
       ]
     },
     "format": {
@@ -190,7 +190,7 @@
       "cache": false
     },
     "uninstall:local": {
-      "command": "rm -f \"$HOME/.local/bin/bun-cli-starter\"",
+      "command": "rm -f \"$HOME/.local/bin/ncs\"",
       "cache": false
     },
     "release": {
@@ -202,7 +202,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coryrylan/bun-cli-starter.git"
+    "url": "git+https://github.com/coryrylan/cli-starter.git"
   },
   "keywords": [
     "mcp",
@@ -211,9 +211,9 @@
   "author": "Cory Rylan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/coryrylan/bun-cli-starter/issues"
+    "url": "https://github.com/coryrylan/cli-starter/issues"
   },
-  "homepage": "https://github.com/coryrylan/bun-cli-starter#readme",
+  "homepage": "https://github.com/coryrylan/cli-starter#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
     "marked": "18.0.0",

@@ -1,12 +1,9 @@
 #!/usr/bin/env bun
 
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import yargs from 'yargs';
 
+import pkg from '../package.json' with { type: 'json' };
 import { capitalize } from './capitalize.js';
-
-const pkg = JSON.parse(readFileSync(resolve(import.meta.dirname, '..', 'package.json'), 'utf-8'));
 const cli = yargs(process.argv.slice(2)).scriptName('ncs').version(pkg.version).usage('$0 <cmd> [args]');
 
 cli.command(

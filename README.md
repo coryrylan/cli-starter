@@ -1,6 +1,6 @@
-# bun-cli-starter
+# cli-starter
 
-![CI Build](https://github.com/coryrylan/bun-cli-starter/actions/workflows/pull-request.yml/badge.svg)
+![CI Build](https://github.com/coryrylan/cli-starter/actions/workflows/pull-request.yml/badge.svg)
 
 Minimal starter kit for building CLI applications with Bun and TypeScript.
 
@@ -44,11 +44,11 @@ ncs greet "world" --capitalize
 
 The build produces platform-specific standalone binaries in `dist/`:
 
-- `bun-cli-starter-macos-arm64`
-- `bun-cli-starter-macos-x64`
-- `bun-cli-starter-linux-x64`
-- `bun-cli-starter-linux-arm64`
-- `bun-cli-starter-windows-x64.exe`
+- `cli-starter-macos-arm64`
+- `cli-starter-macos-x64`
+- `cli-starter-linux-x64`
+- `cli-starter-linux-arm64`
+- `cli-starter-windows-x64.exe`
 
 ## License
 

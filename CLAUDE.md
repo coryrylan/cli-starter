@@ -4,95 +4,83 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a minimal starter kit for building CLI applications with Bun and TypeScript. Bun provides native TypeScript support, so no compilation step is needed for development. For distribution, Bun compiles the CLI into platform-specific single-file executables.
+Minimal starter kit for building CLI applications with Bun and TypeScript. Bun runs TypeScript natively (no compile step for dev) and compiles the CLI into standalone platform-specific binaries for distribution.
 
-## Key Architecture
+## Architecture
 
-- **Entry Point**: `src/index.ts` → imports `src/cli.ts` which defines commands using Yargs
-- **CLI Binary**: Exposed as `bun-cli-starter` command; script name is `ncs`
-- **Module System**: ES modules (`type: "module"`)
-- **TypeScript**: Native support via Bun runtime (no flags needed)
-- **Build**: Wireit orchestrates multi-platform builds (macOS arm64/x64, Linux arm64/x64, Windows x64) plus ESM bundle and type declarations
-- **Task Runner**: [Wireit](https://github.com/nicolo-ribaudo/wireit) manages all scripts with dependency tracking and caching
-- **Dependencies**: yargs (CLI parsing), @modelcontextprotocol/sdk, marked/marked-terminal (markdown rendering), zod (schema validation)
+- **Entry**: `src/index.ts` (shebang `#!/usr/bin/env bun`) → imports `src/cli.ts`, which defines commands via Yargs
+- **Package name**: `cli-starter`. **Bin name**: `ncs` (what users type). Don't conflate the two.
+- **Module system**: ES modules (`type: "module"`). Relative imports use `.js` extensions even for `.ts` sources (standard ESM/TS convention).
+- **Task runner**: [Wireit](https://github.com/google/wireit) wraps every npm script for dependency tracking and caching — always invoke via `bun run <script>`, not directly.
+- **Pre-installed but unused deps**: `@modelcontextprotocol/sdk`, `marked`/`marked-terminal`, `zod` are declared in `package.json` but not yet wired into `src/`. They're ready to use for MCP servers, markdown rendering in the terminal, and schema validation respectively.
 
 ## Common Commands
 
-### Development
-
 ```bash
-bun install          # Install dependencies
-bun start            # Run the CLI directly (via wireit)
-bun src/index.ts     # Run the CLI directly
+bun install                  # Install deps
+bun start                    # Run the CLI (via wireit: `bun src/index.ts`)
+bun src/index.ts <args>      # Run CLI directly with args
+bun run lint                 # ESLint (typescript-eslint strict)
+bun run format               # Prettier check
+bun run format:fix           # Prettier write
+bun run test                 # Run all tests with coverage
+bun run test:coverage        # Same command; enforces thresholds from bunfig.toml
+bun test src/capitalize.test.ts   # Run a single test file (bypass wireit)
+bun test -t "pattern"        # Run tests matching a name pattern
+bun run build                # Full build (ESM + .d.ts + 5 platform binaries)
+bun run ci                   # format + lint + build + test:coverage
+bun run ci:nocache           # Clean dist/ then run ci (useful when debugging cache issues)
+bun run install:local        # Build + install binary to ~/.local/bin/ncs
+bun run uninstall:local      # Remove ~/.local/bin/ncs
 ```
 
-### Testing
+### Coverage thresholds (bunfig.toml)
 
-```bash
-bun run test              # Run tests with coverage
-bun run test:coverage     # Run tests with coverage thresholds (90% lines/statements, 50% functions)
-```
+- 90% lines, 90% statements, 50% functions
+- `dist/**` excluded from coverage
 
-### Linting & Formatting
+### Build outputs (in `dist/`)
 
-```bash
-bun run lint         # ESLint (typescript-eslint strict config)
-bun run format       # Prettier check
-bun run format:fix   # Prettier auto-fix
-```
+Wireit produces these filenames:
 
-### Building
+- `index.js` — minified ESM bundle
+- `index.d.ts` — type declarations (via `tsconfig.types.json`)
+- `ncs-macos-arm64`, `ncs-macos-x64`, `ncs-linux-x64`, `ncs-linux-arm64`, `ncs-windows-x64.exe` — standalone binaries (no Bun required to run)
 
-```bash
-bun run build        # Full build: ESM bundle + type declarations + all platform binaries
-```
+**Note**: `release.config.js` and `README.md` reference these as `cli-starter-*` — the wireit output names and release-asset paths currently disagree. Pick one when editing either side.
 
-Build outputs in `dist/`:
+## Releases (semantic-release)
 
-- `index.js` — ESM bundle
-- `index.d.ts` — TypeScript declarations
-- `bun-cli-starter-macos-arm64`, `bun-cli-starter-macos-x64` — macOS binaries
-- `bun-cli-starter-linux-x64`, `bun-cli-starter-linux-arm64` — Linux binaries
-- `bun-cli-starter-windows-x64.exe` — Windows binary
+Releases run automatically on push to `main` via `.github/workflows/release.yml` and are **scope-gated**:
 
-### CI & Release
-
-```bash
-bun run ci           # Runs lint + build + test:coverage
-bun run install:local    # Build and install binary to ~/.local/bin
-bun run uninstall:local  # Remove locally installed binary
-```
-
-- CI runs on PRs via GitHub Actions (`.github/workflows/pull-request.yml`)
-- Releases are automated via semantic-release on push to `main` (`.github/workflows/release.yml`)
+- Only commits with scope `(cli)` trigger a release
+- `feat(cli): …` → minor, `fix(cli): …` → patch, `<type>(cli)!: …` or breaking footer → major
+- `chore(…)` never releases, regardless of scope
+- Release notes filter to `(cli)`-scoped commits only
+- Tag format: `cli-starter-v<version>` (not plain `v<version>`)
+- Publishes to npm (`--access=public --provenance`) and attaches the 5 platform binaries as GitHub release assets
 
 ## Commit Conventions
 
-Commits must follow [Conventional Commits](https://www.conventionalcommits.org/) enforced by commitlint:
+Enforced by commitlint (`@commitlint/config-conventional`):
 
 - **Types**: `chore`, `feat`, `fix`
 - **Scopes**: `ci`, `cli`
-- Subject must be lower-case, no period, max 100 chars
+- Subject: lower-case, no trailing period, max 100 chars
 
-## Adding New Commands
+## Adding a new CLI command
 
-Modify `src/cli.ts` to add new CLI commands:
+Add to `src/cli.ts` using the Yargs builder pattern already there:
 
 ```typescript
 cli.command(
-  'command-name [args]',
+  'name [arg]',
   'description',
-  yargs => {
-    return yargs.positional('args', { describe: 'argument description' });
-  },
+  yargs => yargs.positional('arg', { type: 'string', describe: '...' }).option('flag', { alias: 'f', type: 'boolean' }),
   argv => {
-    // command implementation
+    /* implementation */
   }
 );
 ```
 
-## Important Notes
-
-- Bun natively supports TypeScript — no experimental flags or build steps needed for development
-- Compiled executables are standalone binaries that do not require Bun to be installed
-- All scripts use Wireit for caching and dependency management — run them via `bun run <script>`
+The default command (`'$0'`) prints help via `cli.getHelp()` — keep it last-wins-safe when adding commands.

@@ -62,23 +62,23 @@ export default {
         assets: [
           {
             label: 'linux-arm64',
-            path: 'dist/bun-cli-starter-linux-arm64'
+            path: 'dist/cli-starter-linux-arm64'
           },
           {
             label: 'linux-x64',
-            path: 'dist/bun-cli-starter-linux-x64'
+            path: 'dist/cli-starter-linux-x64'
           },
           {
             label: 'macos-arm64',
-            path: 'dist/bun-cli-starter-macos-arm64'
+            path: 'dist/cli-starter-macos-arm64'
           },
           {
             label: 'macos-x64',
-            path: 'dist/bun-cli-starter-macos-x64'
+            path: 'dist/cli-starter-macos-x64'
           },
           {
             label: 'windows-x64',
-            path: 'dist/bun-cli-starter-windows-x64.exe'
+            path: 'dist/cli-starter-windows-x64.exe'
           }
         ]
       }
