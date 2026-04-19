@@ -13,15 +13,15 @@ ARCH="$(uname -m)"
 case "$OS" in
   Darwin)
     case "$ARCH" in
-      arm64) TARGET="ncs-macos-arm64" ;;
-      x86_64) TARGET="ncs-macos-x64" ;;
+      arm64) TARGET="$BINARY_NAME-macos-arm64" ;;
+      x86_64) TARGET="$BINARY_NAME-macos-x64" ;;
       *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
     esac
     ;;
   Linux)
     case "$ARCH" in
-      x86_64) TARGET="ncs-linux-x64" ;;
-      aarch64) TARGET="ncs-linux-arm64" ;;
+      x86_64) TARGET="$BINARY_NAME-linux-x64" ;;
+      aarch64) TARGET="$BINARY_NAME-linux-arm64" ;;
       *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
     esac
     ;;
@@ -42,11 +42,11 @@ if [ -f "$SCRIPT_DIR/dist/$TARGET" ]; then
 else
   echo "Downloading $TARGET..."
   TAG=$(curl -fsSL "https://api.github.com/repos/$REPO/releases" \
-    | grep -o '"tag_name": *"ncs-v[^"]*"' \
+    | grep -o '"tag_name": *"'$BINARY_NAME'-v[^"]*"' \
     | head -1 \
     | cut -d'"' -f4)
   if [ -z "$TAG" ]; then
-    echo "Could not find latest ncs release"; exit 1
+    echo "Could not find latest release"; exit 1
   fi
   DOWNLOAD_URL="https://github.com/$REPO/releases/download/$TAG/$TARGET"
   SOURCE="$(mktemp)"
@@ -71,4 +71,4 @@ fi
 
 echo "Installed $BINARY_NAME to $DEST"
 echo ""
-echo "Run 'ncs --help' to get started."
+echo "Run '$BINARY_NAME --help' to get started."
