@@ -15,7 +15,7 @@ cli.command(
   }
 );
 
-cli
+void cli
   .command(
     'greet [message]',
     'create a greeting',
