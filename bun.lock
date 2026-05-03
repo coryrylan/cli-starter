@@ -4,6 +4,28 @@
   "workspaces": {
     "": {
       "name": "cli-starter",
+      "devDependencies": {
+        "@commitlint/cli": "20.5.0",
+        "@commitlint/config-conventional": "20.5.0",
+        "@semantic-release/changelog": "6.0.3",
+        "@semantic-release/commit-analyzer": "13.0.1",
+        "@semantic-release/exec": "7.1.0",
+        "@semantic-release/git": "10.0.1",
+        "@semantic-release/github": "12.0.6",
+        "@semantic-release/release-notes-generator": "14.1.0",
+        "conventional-changelog-conventionalcommits": "9.3.1",
+        "husky": "9.1.7",
+        "prettier": "3.8.2",
+        "semantic-release": "25.0.3",
+        "wireit": "0.14.12",
+      },
+    },
+    "projects/cli": {
+      "name": "cli-starter",
+      "version": "0.0.0",
+      "bin": {
+        "ncs": "dist/index.js",
+      },
       "dependencies": {
         "@modelcontextprotocol/sdk": "1.29.0",
         "marked": "18.0.0",
@@ -12,30 +34,28 @@
         "zod": "4.3.6",
       },
       "devDependencies": {
-        "@commitlint/cli": "20.5.0",
-        "@commitlint/config-conventional": "20.5.0",
-        "@eslint/js": "10.0.1",
-        "@semantic-release/changelog": "6.0.3",
-        "@semantic-release/commit-analyzer": "13.0.1",
-        "@semantic-release/exec": "7.1.0",
-        "@semantic-release/git": "10.0.1",
-        "@semantic-release/github": "12.0.6",
-        "@semantic-release/release-notes-generator": "14.1.0",
-        "@types/bun": "1.3.12",
+        "@eslint/js": "catalog:",
+        "@types/bun": "catalog:",
         "@types/marked-terminal": "6.1.1",
         "@types/yargs": "17.0.35",
         "@typescript-eslint/eslint-plugin": "8.58.1",
         "@typescript-eslint/parser": "8.58.1",
-        "conventional-changelog-conventionalcommits": "9.3.1",
-        "eslint": "10.2.0",
-        "husky": "9.1.7",
-        "prettier": "3.8.2",
-        "semantic-release": "25.0.3",
-        "typescript": "6.0.2",
-        "typescript-eslint": "8.58.1",
-        "wireit": "0.14.12",
+        "eslint": "catalog:",
+        "typescript": "catalog:",
+        "typescript-eslint": "catalog:",
       },
     },
+    "projects/docs": {
+      "name": "@cli-starter/docs",
+      "version": "0.0.0",
+    },
+  },
+  "catalog": {
+    "@eslint/js": "10.0.1",
+    "@types/bun": "1.3.12",
+    "eslint": "10.2.0",
+    "typescript": "6.0.2",
+    "typescript-eslint": "8.58.1",
   },
   "packages": {
     "@actions/core": ["@actions/core@3.0.0", "", { "dependencies": { "@actions/exec": "^3.0.0", "@actions/http-client": "^4.0.0" } }, "sha512-zYt6cz+ivnTmiT/ksRVriMBOiuoUpDCJJlZ5KPl2/FRdvwU3f7MPh9qftvbkXJThragzUZieit2nyHUyw53Seg=="],
@@ -49,6 +69,8 @@
     "@babel/code-frame": ["@babel/code-frame@7.29.0", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.28.5", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw=="],
 
     "@babel/helper-validator-identifier": ["@babel/helper-validator-identifier@7.28.5", "", {}, "sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q=="],
+
+    "@cli-starter/docs": ["@cli-starter/docs@workspace:projects/docs"],
 
     "@colors/colors": ["@colors/colors@1.5.0", "", {}, "sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ=="],
 
@@ -279,6 +301,8 @@
     "clean-stack": ["clean-stack@2.2.0", "", {}, "sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A=="],
 
     "cli-highlight": ["cli-highlight@2.1.11", "", { "dependencies": { "chalk": "^4.0.0", "highlight.js": "^10.7.1", "mz": "^2.4.0", "parse5": "^5.1.1", "parse5-htmlparser2-tree-adapter": "^6.0.0", "yargs": "^16.0.0" }, "bin": { "highlight": "bin/highlight" } }, "sha512-9KDcoEVwyUXrjcJNvHD0NFc/hiwe/WPVYIleQh2O1N2Zro5gWJZ/K+3DGn8w8P/F6FxOgzyC5bxDyHIgCSPhGg=="],
+
+    "cli-starter": ["cli-starter@workspace:projects/cli"],
 
     "cli-table3": ["cli-table3@0.6.5", "", { "dependencies": { "string-width": "^4.2.0" }, "optionalDependencies": { "@colors/colors": "1.5.0" } }, "sha512-+W/5efTR7y5HRD7gACw9yQjqMVvEMLBHmboM/kPWam+H+Hmyrgjh6YncVKK122YZkXrLudzTuAukUw9FnMf7IQ=="],
 

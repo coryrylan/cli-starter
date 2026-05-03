@@ -1,177 +1,43 @@
 {
-  "name": "cli-starter",
+  "name": "cli-starter-monorepo",
   "private": true,
-  "version": "0.0.0",
-  "description": "Minimal starter kit for building CLI applications with Bun and TypeScript.",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "packageManager": "bun@1.3.12",
   "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
+  "workspaces": {
+    "packages": [
+      "projects/*"
+    ],
+    "catalog": {
+      "@types/bun": "1.3.12",
+      "@eslint/js": "10.0.1",
+      "eslint": "10.2.0",
+      "typescript": "6.0.2",
+      "typescript-eslint": "8.58.1"
+    }
   },
-  "bin": {
-    "ncs": "dist/index.js"
-  },
-  "files": [
-    "README.md",
-    "CHANGELOG.md",
-    "LICENSE",
-    "package.json",
-    "dist/index.js",
-    "dist/**/*.d.ts"
-  ],
   "scripts": {
-    "start": "wireit",
     "ci": "wireit",
-    "ci:nocache": "bun run clean && bun run ci",
-    "clean": "rm -rf dist",
-    "test": "wireit",
-    "test:coverage": "wireit",
-    "lint": "wireit",
-    "build": "wireit",
+    "ci:nocache": "bun run clean && bun i --frozen-lockfile && bun run ci",
     "format": "wireit",
     "format:fix": "wireit",
     "release": "wireit",
-    "install:local": "wireit",
-    "uninstall:local": "wireit"
+    "clean": "git clean -dfX",
+    "prepare": "husky"
   },
   "wireit": {
-    "start": {
-      "command": "bun src/index.ts",
-      "cache": false
-    },
     "ci": {
       "dependencies": [
         "format",
-        "lint",
-        "build",
-        "test:coverage"
-      ]
-    },
-    "test": {
-      "command": "bun test --coverage",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json",
-        "bunfig.toml"
-      ],
-      "output": []
-    },
-    "test:coverage": {
-      "command": "bun test --coverage",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json",
-        "bunfig.toml"
-      ],
-      "output": []
-    },
-    "lint": {
-      "command": "eslint .",
-      "files": [
-        "src/**/*.ts",
-        "eslint.config.js",
-        "package.json"
-      ],
-      "output": []
-    },
-    "build": {
-      "dependencies": [
-        "build:js",
-        "build:tsc",
-        "build:darwin-arm64",
-        "build:darwin-x64",
-        "build:linux-x64",
-        "build:linux-arm64",
-        "build:windows-x64"
-      ]
-    },
-    "build:js": {
-      "command": "bun build ./src/index.ts --outdir=./dist --target=bun --format=esm --minify",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json"
-      ],
-      "output": [
-        "dist/index.js"
-      ]
-    },
-    "build:tsc": {
-      "command": "tsc --emitDeclarationOnly --project tsconfig.types.json",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json",
-        "tsconfig.types.json"
-      ],
-      "output": [
-        "dist/index.d.ts"
-      ]
-    },
-    "build:darwin-arm64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-arm64 --outfile dist/ncs-macos-arm64",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json"
-      ],
-      "output": [
-        "dist/ncs-macos-arm64"
-      ]
-    },
-    "build:darwin-x64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-x64 --outfile dist/ncs-macos-x64",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json"
-      ],
-      "output": [
-        "dist/ncs-macos-x64"
-      ]
-    },
-    "build:linux-x64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-linux-x64 --outfile dist/ncs-linux-x64",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json"
-      ],
-      "output": [
-        "dist/ncs-linux-x64"
-      ]
-    },
-    "build:linux-arm64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-linux-arm64 --outfile dist/ncs-linux-arm64",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json"
-      ],
-      "output": [
-        "dist/ncs-linux-arm64"
-      ]
-    },
-    "build:windows-x64": {
-      "command": "bun build --compile --minify src/index.ts --target=bun-windows-x64 --outfile dist/ncs-windows-x64.exe",
-      "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "tsconfig.json"
-      ],
-      "output": [
-        "dist/ncs-windows-x64.exe"
+        "./projects/cli:ci"
       ]
     },
     "format": {
       "command": "prettier --config=prettier.config.js --check --cache .",
       "files": [
-        "src/**/*.ts",
-        "src/**/*.json",
-        "**/*.md",
+        "projects/**/*.ts",
+        "projects/**/*.json",
+        "projects/**/*.md",
+        "*.md",
         "!**/.wireit/**",
         "!**/dist/**"
       ],
@@ -182,44 +48,15 @@
     "format:fix": {
       "command": "prettier --config=prettier.config.js --write ."
     },
-    "install:local": {
-      "dependencies": [
-        "build"
-      ],
-      "command": "bash install.sh",
-      "cache": false
-    },
-    "uninstall:local": {
-      "command": "rm -f \"$HOME/.local/bin/ncs\"",
-      "cache": false
-    },
     "release": {
-      "command": "HUSKY=0 bun x semantic-release",
+      "command": "echo 'Releasing...'",
       "dependencies": [
-        "ci"
+        "release:cli"
       ]
+    },
+    "release:cli": {
+      "command": "cd projects/cli && HUSKY=0 bun x semantic-release"
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/coryrylan/cli-starter.git"
-  },
-  "keywords": [
-    "mcp",
-    "cli"
-  ],
-  "author": "Cory Rylan",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/coryrylan/cli-starter/issues"
-  },
-  "homepage": "https://github.com/coryrylan/cli-starter#readme",
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "1.29.0",
-    "marked": "18.0.0",
-    "marked-terminal": "7.3.0",
-    "yargs": "18.0.0",
-    "zod": "4.3.6"
   },
   "devDependencies": {
     "@commitlint/cli": "20.5.0",
@@ -230,19 +67,10 @@
     "@semantic-release/git": "10.0.1",
     "@semantic-release/github": "12.0.6",
     "@semantic-release/release-notes-generator": "14.1.0",
-    "@types/bun": "1.3.12",
-    "@eslint/js": "10.0.1",
-    "@types/marked-terminal": "6.1.1",
-    "@types/yargs": "17.0.35",
-    "@typescript-eslint/eslint-plugin": "8.58.1",
-    "@typescript-eslint/parser": "8.58.1",
     "conventional-changelog-conventionalcommits": "9.3.1",
     "husky": "9.1.7",
-    "semantic-release": "25.0.3",
-    "wireit": "0.14.12",
-    "eslint": "10.2.0",
     "prettier": "3.8.2",
-    "typescript": "6.0.2",
-    "typescript-eslint": "8.58.1"
+    "semantic-release": "25.0.3",
+    "wireit": "0.14.12"
   }
 }

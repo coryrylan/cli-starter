@@ -3,7 +3,8 @@ set -euo pipefail
 
 REPO="coryrylan/cli-starter"
 INSTALL_DIR="$HOME/.local/bin"
-BINARY_NAME="ncs"
+BIN_NAME="ncs"
+ASSET_NAME="cli-starter"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Detect OS and architecture
@@ -13,15 +14,15 @@ ARCH="$(uname -m)"
 case "$OS" in
   Darwin)
     case "$ARCH" in
-      arm64) TARGET="$BINARY_NAME-macos-arm64" ;;
-      x86_64) TARGET="$BINARY_NAME-macos-x64" ;;
+      arm64) TARGET="$ASSET_NAME-macos-arm64" ;;
+      x86_64) TARGET="$ASSET_NAME-macos-x64" ;;
       *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
     esac
     ;;
   Linux)
     case "$ARCH" in
-      x86_64) TARGET="$BINARY_NAME-linux-x64" ;;
-      aarch64) TARGET="$BINARY_NAME-linux-arm64" ;;
+      x86_64) TARGET="$ASSET_NAME-linux-x64" ;;
+      aarch64) TARGET="$ASSET_NAME-linux-arm64" ;;
       *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
     esac
     ;;
@@ -42,7 +43,7 @@ if [ -f "$SCRIPT_DIR/dist/$TARGET" ]; then
 else
   echo "Downloading $TARGET..."
   TAG=$(curl -fsSL "https://api.github.com/repos/$REPO/releases" \
-    | grep -o '"tag_name": *"'$BINARY_NAME'-v[^"]*"' \
+    | grep -o '"tag_name": *"'"$ASSET_NAME"'-v[^"]*"' \
     | head -1 \
     | cut -d'"' -f4)
   if [ -z "$TAG" ]; then
@@ -55,7 +56,7 @@ fi
 
 chmod +x "$SOURCE"
 
-DEST="$INSTALL_DIR/$BINARY_NAME"
+DEST="$INSTALL_DIR/$BIN_NAME"
 
 if [ -w "$INSTALL_DIR" ]; then
   cp "$SOURCE" "$DEST"
@@ -69,6 +70,6 @@ if [ "$OS" = "Darwin" ] && command -v codesign >/dev/null 2>&1; then
   codesign --sign - --force "$DEST" 2>/dev/null || echo "Ad-hoc code signing failed — binary may not run."
 fi
 
-echo "Installed $BINARY_NAME to $DEST"
+echo "Installed $BIN_NAME to $DEST"
 echo ""
-echo "Run '$BINARY_NAME --help' to get started."
+echo "Run '$BIN_NAME --help' to get started."

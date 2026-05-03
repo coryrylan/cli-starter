@@ -1,7 +1,7 @@
 node_modules
-dist
-.wireit
-.coverage
-CHANGELOG.md
+projects/**/dist
+projects/**/.wireit
+projects/**/.coverage
+projects/**/CHANGELOG.md
 bun.lock
 *.bun-build

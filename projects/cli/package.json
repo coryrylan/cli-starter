@@ -1,0 +1,216 @@
+{
+  "name": "cli-starter",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Minimal starter kit for building CLI applications with Bun and TypeScript.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "bin": {
+    "ncs": "dist/index.js"
+  },
+  "files": [
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "package.json",
+    "dist/index.js",
+    "dist/**/*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coryrylan/cli-starter.git"
+  },
+  "keywords": [
+    "mcp",
+    "cli"
+  ],
+  "author": "Cory Rylan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coryrylan/cli-starter/issues"
+  },
+  "homepage": "https://github.com/coryrylan/cli-starter#readme",
+  "scripts": {
+    "start": "wireit",
+    "ci": "wireit",
+    "ci:nocache": "bun run clean && bun run ci",
+    "clean": "rm -rf dist",
+    "test": "wireit",
+    "test:coverage": "wireit",
+    "lint": "wireit",
+    "build": "wireit",
+    "install:local": "wireit",
+    "uninstall:local": "wireit",
+    "release": "wireit"
+  },
+  "wireit": {
+    "start": {
+      "command": "bun src/index.ts",
+      "cache": false
+    },
+    "ci": {
+      "dependencies": [
+        "lint",
+        "build",
+        "test:coverage"
+      ]
+    },
+    "test": {
+      "command": "bun test",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json",
+        "bunfig.toml"
+      ],
+      "output": []
+    },
+    "test:coverage": {
+      "command": "bun test --coverage",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json",
+        "bunfig.toml"
+      ],
+      "output": []
+    },
+    "lint": {
+      "command": "eslint .",
+      "files": [
+        "src/**/*.ts",
+        "eslint.config.js",
+        "package.json"
+      ],
+      "output": []
+    },
+    "build": {
+      "dependencies": [
+        "build:js",
+        "build:tsc",
+        "build:darwin-arm64",
+        "build:darwin-x64",
+        "build:linux-x64",
+        "build:linux-arm64",
+        "build:windows-x64"
+      ]
+    },
+    "build:js": {
+      "command": "bun build ./src/index.ts --outdir=./dist --target=bun --format=esm --minify",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/index.js"
+      ]
+    },
+    "build:tsc": {
+      "command": "tsc --emitDeclarationOnly --project tsconfig.types.json",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json",
+        "tsconfig.types.json"
+      ],
+      "output": [
+        "dist/index.d.ts"
+      ]
+    },
+    "build:darwin-arm64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-arm64 --outfile dist/cli-starter-macos-arm64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/cli-starter-macos-arm64"
+      ]
+    },
+    "build:darwin-x64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-darwin-x64 --outfile dist/cli-starter-macos-x64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/cli-starter-macos-x64"
+      ]
+    },
+    "build:linux-x64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-linux-x64 --outfile dist/cli-starter-linux-x64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/cli-starter-linux-x64"
+      ]
+    },
+    "build:linux-arm64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-linux-arm64 --outfile dist/cli-starter-linux-arm64",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/cli-starter-linux-arm64"
+      ]
+    },
+    "build:windows-x64": {
+      "command": "bun build --compile --minify src/index.ts --target=bun-windows-x64 --outfile dist/cli-starter-windows-x64.exe",
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.json",
+        "tsconfig.json"
+      ],
+      "output": [
+        "dist/cli-starter-windows-x64.exe"
+      ]
+    },
+    "install:local": {
+      "dependencies": [
+        "build"
+      ],
+      "command": "bash install.sh",
+      "cache": false
+    },
+    "uninstall:local": {
+      "command": "rm -f \"$HOME/.local/bin/ncs\"",
+      "cache": false
+    },
+    "release": {
+      "command": "HUSKY=0 bun x semantic-release",
+      "dependencies": [
+        "ci"
+      ]
+    }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "marked": "18.0.0",
+    "marked-terminal": "7.3.0",
+    "yargs": "18.0.0",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/marked-terminal": "6.1.1",
+    "@types/yargs": "17.0.35",
+    "@eslint/js": "catalog:",
+    "@typescript-eslint/eslint-plugin": "8.58.1",
+    "@typescript-eslint/parser": "8.58.1",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
+  }
+}

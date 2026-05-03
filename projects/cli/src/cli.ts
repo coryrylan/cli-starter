@@ -19,8 +19,8 @@ void cli
   .command(
     'greet [message]',
     'create a greeting',
-    yargs => {
-      return yargs
+    builder => {
+      return builder
         .positional('message', {
           describe: 'message to greet',
           type: 'string'
