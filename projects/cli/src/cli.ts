@@ -3,8 +3,8 @@
 import yargs from 'yargs';
 
 import pkg from '../package.json' with { type: 'json' };
-import { capitalize } from './capitalize.js';
-const cli = yargs(process.argv.slice(2)).scriptName('ncs').version(pkg.version).usage('$0 <cmd> [args]');
+import { greet } from './greet.js';
+const cli = yargs(process.argv.slice(2)).scriptName('ncs').version(pkg.version).usage('$0 <cmd> [args]').strict();
 
 cli.command(
   '$0',
@@ -32,9 +32,7 @@ void cli
         });
     },
     argv => {
-      const greeting = argv.message ?? 'world';
-      const capitalized = capitalize(greeting, Boolean(argv.capitalize));
-      console.log(`hello, ${capitalized}!`);
+      console.log(greet(argv.message, argv.capitalize));
     }
   )
   .parse();

@@ -11,16 +11,17 @@ Bun workspaces monorepo. Packages live under `projects/`.
 
 ## Tooling split
 
-- **Root**: prettier, commitlint, husky, semantic-release config, monorepo orchestration via wireit. Catalog dev deps shared via Bun's workspaces `catalog`.
+- **Root**: prettier, commitlint, husky, semantic-release config, [knip](https://knip.dev) (monorepo-aware via `knip.config.js` `workspaces`), monorepo orchestration via wireit. Catalog dev deps shared via Bun's workspaces `catalog`.
 - **Per-package**: ESLint, TypeScript, bunfig, source code, build outputs, install scripts. Each package has its own wireit graph.
 
 ## Common commands (run at root)
 
 ```bash
 bun install          # install deps for all workspaces
-bun run ci           # format + per-package ci
+bun run ci           # format + lint:knip + per-package ci
 bun run format       # prettier check across all packages
 bun run format:fix   # prettier write
+bun run lint:knip    # knip across all workspaces (unused files / deps / exports)
 bun run release      # semantic-release per package (CI only)
 ```
 

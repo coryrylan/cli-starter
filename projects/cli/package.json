@@ -203,12 +203,10 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@eslint/js": "catalog:",
     "@types/bun": "catalog:",
     "@types/marked-terminal": "6.1.1",
     "@types/yargs": "17.0.35",
-    "@eslint/js": "catalog:",
-    "@typescript-eslint/eslint-plugin": "8.58.1",
-    "@typescript-eslint/parser": "8.58.1",
     "eslint": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"

@@ -12,7 +12,8 @@ Minimal starter kit for building CLI applications with Bun and TypeScript. Bun r
 - **Package name**: `cli-starter`. **Bin name**: `ncs` (what users type). Don't conflate the two.
 - **Module system**: ES modules (`type: "module"`). Relative imports use `.js` extensions even for `.ts` sources (standard ESM/TS convention).
 - **Task runner**: [Wireit](https://github.com/google/wireit) wraps every npm script for dependency tracking and caching — always invoke via `bun run <script>`, not directly.
-- **Pre-installed but unused deps**: `@modelcontextprotocol/sdk`, `marked`/`marked-terminal`, `zod` are declared in `package.json` but not yet wired into `src/`. They're ready to use for MCP servers, markdown rendering in the terminal, and schema validation respectively.
+- **Pre-installed but unused deps**: `@modelcontextprotocol/sdk`, `marked`/`marked-terminal`, `zod` are declared in `package.json` but not yet wired into `src/`. They're ready to use for MCP servers, markdown rendering in the terminal, and schema validation respectively. Mirrored in the root `knip.config.js` under `workspaces['projects/cli'].ignoreDependencies` — when wired into `src/`, drop them from that list too.
+- **Lint**: ESLint runs per-package (`bun run lint`). [Knip](https://knip.dev) is configured at the monorepo root (`knip.config.js`) and runs across all workspaces via `bun run lint:knip` from the repo root.
 
 ## Common Commands
 
@@ -22,7 +23,7 @@ Run from `projects/cli/` (or via `bun --filter cli-starter run <script>` from th
 bun install                  # Install deps (resolves at workspace root)
 bun start                    # Run the CLI (via wireit: `bun src/index.ts`)
 bun src/index.ts <args>      # Run CLI directly with args
-bun run lint                 # ESLint (typescript-eslint strict)
+bun run lint                 # ESLint (typescript-eslint strict) for this package
 bun run test                 # Run all tests
 bun run test:coverage        # Run tests with coverage; enforces thresholds from bunfig.toml
 bun test src/capitalize.test.ts   # Run a single test file (bypass wireit)
