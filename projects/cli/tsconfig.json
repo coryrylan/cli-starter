@@ -9,6 +9,7 @@
     "types": ["bun"],
     "moduleResolution": "bundler",
     "noEmit": true,
+    "skipLibCheck": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true
