@@ -1,0 +1,25 @@
+[settings]
+lockfile = true
+npm.package_manager = "bun"
+
+[tools]
+node = "26.7.0"
+bun = "1.4.2"
+
+[tasks.clean]
+run = [
+  "git clean -dfX"
+]
+
+[tasks.install]
+run = [
+  "mise install",
+  "mise exec -- bun i --frozen-lockfile --prefer-offline --config.confirmModulesPurge=false",
+]
+
+[tasks.setup]
+run = [
+  "mise run clean",
+  "mise run install",
+  "bun run ci",
+]

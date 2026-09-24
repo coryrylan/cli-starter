@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this `projects/cli` package.
+This file provides guidance to coding agents working in this `projects/cli` package.
 
 ## Project Overview
 

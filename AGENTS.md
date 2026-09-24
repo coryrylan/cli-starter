@@ -1,28 +1,29 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to coding agents working in this repository.
 
 ## Project Overview
 
 Bun workspaces monorepo. Packages live under `projects/`.
 
-- `projects/cli/` — `cli-starter` CLI app (bin: `ncs`). See [`projects/cli/CLAUDE.md`](./projects/cli/CLAUDE.md) for package-specific guidance.
+- `projects/cli/` — `cli-starter` CLI app (bin: `ncs`). See [`projects/cli/AGENTS.md`](./projects/cli/AGENTS.md) for package-specific guidance.
 - `projects/docs/` — `@cli-starter/docs` placeholder for a future documentation site.
 
 ## Tooling split
 
 - **Root**: prettier, commitlint, husky, semantic-release config, [knip](https://knip.dev) (monorepo-aware via `knip.config.js` `workspaces`), monorepo orchestration via wireit. Catalog dev deps shared via Bun's workspaces `catalog`.
 - **Per-package**: ESLint, TypeScript, bunfig, source code, build outputs, install scripts. Each package has its own wireit graph.
+- `mise.toml`: Toolchain versions for Node.js and Bun.
 
 ## Common commands (run at root)
 
 ```bash
-bun install          # install deps for all workspaces
-bun run ci           # format + lint:knip + per-package ci
-bun run format       # prettier check across all packages
-bun run format:fix   # prettier write
-bun run lint:knip    # knip across all workspaces (unused files / deps / exports)
-bun run release      # semantic-release per package (CI only)
+mise exec -- bun install          # install deps for all workspaces
+mise exec -- bun run ci           # format + lint:knip + per-package ci
+mise exec -- bun run format       # prettier check across all packages
+mise exec -- bun run format:fix   # prettier write
+mise exec -- bun run lint:knip    # knip across all workspaces (unused files / deps / exports)
+mise exec -- bun run release      # semantic-release per package (CI only)
 ```
 
 To run package-scoped scripts from root use `bun --filter <name> run <script>`, e.g. `bun --filter cli-starter run build`.

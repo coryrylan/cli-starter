@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'projects/docs/**'
+      - 'projects/cli/**'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
@@ -25,6 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-ci
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
