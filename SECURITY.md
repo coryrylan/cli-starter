@@ -19,7 +19,7 @@ Please include as much of the following information as possible:
 
 - A description of the issue and its potential impact
 - Steps to reproduce, including any proof-of-concept code
-- The CLI Starter version (`ncs --version`) and platform (OS, architecture)
+- The CLI Starter version (`mycli --version`) and platform (OS, architecture)
 - Any relevant logs or output
 
 ### What to expect

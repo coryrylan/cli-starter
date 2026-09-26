@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint';
 export default defineConfig([
   { ignores: ['dist/**', '.wireit/**', '*.config.js'] },
   eslint.configs.recommended,
-  tseslint.configs.strict,
+  tseslint.configs.strictTypeChecked,
   {
     files: ['**/*.ts'],
     languageOptions: {
@@ -31,6 +31,13 @@ export default defineConfig([
       'no-unreachable': 'error',
       'no-useless-return': 'error',
       'no-useless-catch': 'error',
+      'no-warning-comments': ['error', { terms: ['todo', 'fixme'], location: 'anywhere' }],
+      'no-restricted-properties': [
+        'error',
+        ...['it', 'test', 'describe'].flatMap(object =>
+          ['skip', 'only', 'todo'].map(property => ({ object, property, message: 'Run every test in CI.' }))
+        )
+      ],
       'no-restricted-imports': ['error', { patterns: ['**/dist/**', '**/node_modules/**'] }],
       'id-length': ['error', { min: 2, exceptions: ['_'] }],
       '@typescript-eslint/explicit-function-return-type': 'error',
@@ -38,12 +45,13 @@ export default defineConfig([
       '@typescript-eslint/prefer-readonly': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': 'error',
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/only-throw-error': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
     }
   },
   {
-    files: ['src/**/*.test.ts', 'src/test-helpers.ts'],
+    files: ['src/**/*.test.ts', 'test/**/*.test.ts', 'src/test-helpers.ts'],
     rules: {
       'max-lines-per-function': 'off',
       'max-statements': 'off',

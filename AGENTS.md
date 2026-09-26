@@ -6,7 +6,7 @@ This file provides guidance to coding agents working in this repository.
 
 Bun workspaces monorepo. Packages live under `projects/`.
 
-- `projects/cli/` — `cli-starter` CLI app (bin: `ncs`). See [`projects/cli/AGENTS.md`](./projects/cli/AGENTS.md) for package-specific guidance.
+- `projects/cli/` — `cli-starter` CLI app (example command: `mycli`). See [`projects/cli/AGENTS.md`](./projects/cli/AGENTS.md) for package-specific guidance.
 - `projects/docs/` — `@cli-starter/docs` placeholder for a future documentation site.
 
 ## Tooling split
@@ -19,7 +19,7 @@ Bun workspaces monorepo. Packages live under `projects/`.
 
 ```bash
 mise exec -- bun install          # install deps for all workspaces
-mise exec -- bun run ci           # format + lint:knip + per-package ci
+mise exec -- bun run ci           # format + static checks + per-package ci
 mise exec -- bun run format       # prettier check across all packages
 mise exec -- bun run format:fix   # prettier write
 mise exec -- bun run lint:knip    # knip across all workspaces (unused files / deps / exports)
