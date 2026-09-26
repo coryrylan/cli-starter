@@ -4,7 +4,7 @@ import yargs from 'yargs';
 
 import pkg from '../package.json' with { type: 'json' };
 import { greet } from './greet.js';
-const cli = yargs(process.argv.slice(2)).scriptName('ncs').version(pkg.version).usage('$0 <cmd> [args]').strict();
+const cli = yargs(process.argv.slice(2)).scriptName('mycli').version(pkg.version).usage('$0 <cmd> [args]').strict();
 
 cli.command(
   '$0',

@@ -1,10 +1,29 @@
 import { describe, it, expect } from 'bun:test';
+import pkg from '../package.json' with { type: 'json' };
 
 interface CliResult {
   stdout: string;
   stderr: string;
   exitCode: number;
 }
+
+interface CommandContract {
+  name: string;
+  validArgs: string[];
+  expectedOutput: string;
+  invalidArgs: string[];
+  expectedError: string;
+}
+
+const commandContracts: CommandContract[] = [
+  {
+    name: 'greet',
+    validArgs: ['greet', 'agent'],
+    expectedOutput: 'hello, agent!',
+    invalidArgs: ['greet', '--unknown-option'],
+    expectedError: 'unknown-option'
+  }
+];
 
 async function runCli(args: string[]): Promise<CliResult> {
   const proc = Bun.spawn(['bun', 'src/index.ts', ...args], {
@@ -16,6 +35,37 @@ async function runCli(args: string[]): Promise<CliResult> {
   const exitCode = await proc.exited;
   return { stdout, stderr, exitCode };
 }
+
+describe('command contracts', () => {
+  it('should cover every command shown in help', async () => {
+    const { stdout, exitCode } = await runCli(['--help']);
+    const commandNames = stdout
+      .split('\n')
+      .filter(line => /^\s+mycli \S/.test(line) && !line.includes('[default]'))
+      .flatMap(line => {
+        const name = line.trim().split(/\s+/)[1];
+        return name ? [name] : [];
+      });
+
+    expect(exitCode).toBe(0);
+    expect(Object.keys(pkg.bin)).toEqual(['mycli']);
+    expect(commandNames).toEqual(commandContracts.map(({ name }) => name));
+  });
+
+  commandContracts.forEach(({ name, validArgs, expectedOutput, invalidArgs, expectedError }) => {
+    it(`should run ${name} successfully`, async () => {
+      const { stdout, exitCode } = await runCli(validArgs);
+      expect(exitCode).toBe(0);
+      expect(stdout.trim()).toBe(expectedOutput);
+    });
+
+    it(`should reject invalid ${name} options`, async () => {
+      const { stderr, exitCode } = await runCli(invalidArgs);
+      expect(exitCode).not.toBe(0);
+      expect(stderr).toContain(expectedError);
+    });
+  });
+});
 
 describe('greet command', () => {
   it('should greet with default message', async () => {

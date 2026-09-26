@@ -9,10 +9,9 @@ Minimal starter kit for building CLI applications with Bun and TypeScript. Bun r
 ## Architecture
 
 - **Entry**: `src/index.ts` (shebang `#!/usr/bin/env bun`) → imports `src/cli.ts`, which defines commands via Yargs
-- **Package name**: `cli-starter`. **Bin name**: `ncs` (what users type). Don't conflate the two.
+- **Package name**: `cli-starter`. **Example command and binary prefix**: `mycli`. Release tags retain the package name.
 - **Module system**: ES modules (`type: "module"`). Relative imports use `.js` extensions even for `.ts` sources (standard ESM/TS convention).
 - **Task runner**: [Wireit](https://github.com/google/wireit) wraps every npm script for dependency tracking and caching — always invoke via `bun run <script>`, not directly.
-- **Pre-installed but unused deps**: `@modelcontextprotocol/sdk`, `marked`/`marked-terminal`, `zod` are declared in `package.json` but not yet wired into `src/`. They're ready to use for MCP servers, markdown rendering in the terminal, and schema validation respectively. Mirrored in the root `knip.config.js` under `workspaces['projects/cli'].ignoreDependencies` — when wired into `src/`, drop them from that list too.
 - **Lint**: ESLint runs per-package (`bun run lint`). [Knip](https://knip.dev) is configured at the monorepo root (`knip.config.js`) and runs across all workspaces via `bun run lint:knip` from the repo root.
 
 ## Common Commands
@@ -23,28 +22,31 @@ Run from `projects/cli/` (or via `bun --filter cli-starter run <script>` from th
 bun install                  # Install deps (resolves at workspace root)
 bun start                    # Run the CLI (via wireit: `bun src/index.ts`)
 bun src/index.ts <args>      # Run CLI directly with args
-bun run lint                 # ESLint (typescript-eslint strict) for this package
-bun run test                 # Run all tests
-bun run test:coverage        # Run tests with coverage; enforces thresholds from bunfig.toml
+bun run lint                 # ESLint (typescript-eslint strictTypeChecked) for this package
+bun run typecheck            # Typecheck source and tests without emitting files
+bun run test                 # Run source tests
+bun run test:coverage        # Run source tests with enforced coverage thresholds
+bun run lint:package         # Build and validate package entrypoints with publint
 bun test src/capitalize.test.ts   # Run a single test file (bypass wireit)
 bun test -t "pattern"        # Run tests matching a name pattern
 bun run build                # Full build (ESM + .d.ts + 5 platform binaries)
-bun run ci                   # lint + build + test:coverage
+bun run ci                   # lint + typecheck + build + source, artifact, and package checks
 bun run ci:nocache           # Clean dist/ then run ci (useful when debugging cache issues)
-bun run install:local        # Build + install binary to ~/.local/bin/ncs
-bun run uninstall:local      # Remove ~/.local/bin/ncs
+bun run install:local        # Build + install binary to ~/.local/bin/mycli
+bun run uninstall:local      # Remove ~/.local/bin/mycli
 ```
 
 ### Coverage thresholds (bunfig.toml)
 
-- 90% lines, 90% statements, 90% functions
+- 90% lines and functions
 - `dist/**` excluded from coverage
+- The command and artifact tests validate CLI subprocess behavior; Bun's coverage report measures the imported logic modules.
 
 ### Build outputs (in `dist/`)
 
 - `index.js` — minified ESM bundle
 - `index.d.ts` — type declarations (via `tsconfig.types.json`)
-- `cli-starter-macos-arm64`, `cli-starter-macos-x64`, `cli-starter-linux-x64`, `cli-starter-linux-arm64`, `cli-starter-windows-x64.exe` — standalone binaries (no Bun required to run)
+- `mycli-macos-arm64`, `mycli-macos-x64`, `mycli-linux-x64`, `mycli-linux-arm64`, `mycli-windows-x64.exe` — standalone binaries (no Bun required to run)
 
 ## Releases (semantic-release)
 

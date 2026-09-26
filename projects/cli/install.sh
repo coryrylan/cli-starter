@@ -3,8 +3,8 @@ set -euo pipefail
 
 REPO="coryrylan/cli-starter"
 INSTALL_DIR="$HOME/.local/bin"
-BIN_NAME="ncs"
-ASSET_NAME="cli-starter"
+BIN_NAME="mycli"
+RELEASE_TAG_PREFIX="cli-starter"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Detect OS and architecture
@@ -14,15 +14,15 @@ ARCH="$(uname -m)"
 case "$OS" in
   Darwin)
     case "$ARCH" in
-      arm64) TARGET="$ASSET_NAME-macos-arm64" ;;
-      x86_64) TARGET="$ASSET_NAME-macos-x64" ;;
+      arm64) TARGET="$BIN_NAME-macos-arm64" ;;
+      x86_64) TARGET="$BIN_NAME-macos-x64" ;;
       *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
     esac
     ;;
   Linux)
     case "$ARCH" in
-      x86_64) TARGET="$ASSET_NAME-linux-x64" ;;
-      aarch64) TARGET="$ASSET_NAME-linux-arm64" ;;
+      x86_64) TARGET="$BIN_NAME-linux-x64" ;;
+      aarch64) TARGET="$BIN_NAME-linux-arm64" ;;
       *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
     esac
     ;;
@@ -43,7 +43,7 @@ if [ -f "$SCRIPT_DIR/dist/$TARGET" ]; then
 else
   echo "Downloading $TARGET..."
   TAG=$(curl -fsSL "https://api.github.com/repos/$REPO/releases" \
-    | grep -o '"tag_name": *"'"$ASSET_NAME"'-v[^"]*"' \
+    | grep -o '"tag_name": *"'"$RELEASE_TAG_PREFIX"'-v[^"]*"' \
     | head -1 \
     | cut -d'"' -f4)
   if [ -z "$TAG" ]; then
@@ -58,12 +58,8 @@ chmod +x "$SOURCE"
 
 DEST="$INSTALL_DIR/$BIN_NAME"
 
-if [ -w "$INSTALL_DIR" ]; then
-  cp "$SOURCE" "$DEST"
-else
-  echo "Installing to $INSTALL_DIR (requires sudo)..."
-  sudo cp "$SOURCE" "$DEST"
-fi
+mkdir -p "$INSTALL_DIR"
+cp "$SOURCE" "$DEST"
 
 # macOS requires ad-hoc code signature for binaries to execute
 if [ "$OS" = "Darwin" ] && command -v codesign >/dev/null 2>&1; then

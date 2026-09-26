@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>cli-starter</title>
-    <meta name="description" content="Minimal starter kit for building CLI applications with Bun and TypeScript." />
+    <meta name="description" content="Build standalone cross-platform CLI binaries with Bun and TypeScript." />
     <style>
       :root {
         color-scheme: light dark;
@@ -97,15 +97,18 @@
   <body>
     <main>
       <h1>cli-starter</h1>
-      <p class="lead">Minimal starter kit for building CLI applications with Bun and TypeScript.</p>
+      <p class="lead">
+        Build cross-platform standalone CLI binaries with Bun and TypeScript. The binaries include the runtime, so users
+        don't need Bun or Node.js to run them.
+      </p>
 
       <h2>Install</h2>
       <pre><code>curl -fsSL https://raw.githubusercontent.com/coryrylan/cli-starter/main/projects/cli/install.sh | bash</code></pre>
 
       <h2>Usage</h2>
-      <pre><code>ncs --help
-ncs greet world
-ncs greet world --capitalize</code></pre>
+      <pre><code>mycli --help
+mycli greet world
+mycli greet world --capitalize</code></pre>
 
       <h2>Develop</h2>
       <pre><code>bun install

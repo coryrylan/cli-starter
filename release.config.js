@@ -61,11 +61,11 @@ export default {
       {
         success: '🎉 This issue has been resolved in version ${nextRelease.version} 🎉',
         assets: [
-          { label: 'linux-arm64', path: 'dist/cli-starter-linux-arm64' },
-          { label: 'linux-x64', path: 'dist/cli-starter-linux-x64' },
-          { label: 'macos-arm64', path: 'dist/cli-starter-macos-arm64' },
-          { label: 'macos-x64', path: 'dist/cli-starter-macos-x64' },
-          { label: 'windows-x64', path: 'dist/cli-starter-windows-x64.exe' }
+          { label: 'linux-arm64', path: 'dist/mycli-linux-arm64' },
+          { label: 'linux-x64', path: 'dist/mycli-linux-x64' },
+          { label: 'macos-arm64', path: 'dist/mycli-macos-arm64' },
+          { label: 'macos-x64', path: 'dist/mycli-macos-x64' },
+          { label: 'windows-x64', path: 'dist/mycli-windows-x64.exe' }
         ]
       }
     ]
