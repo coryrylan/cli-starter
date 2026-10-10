@@ -92,7 +92,7 @@
     "@semantic-release/release-notes-generator": "14.1.1",
     "conventional-changelog-conventionalcommits": "10.4.0",
     "husky": "9.1.7",
-    "knip": "6.38.0",
+    "knip": "6.40.0",
     "prettier": "3.9.9",
     "semantic-release": "25.0.9",
     "wireit": "0.14.13"
